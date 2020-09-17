@@ -16,11 +16,11 @@ pipeline {
                 
                  }
         }
-        
-        stage("Docker Build") {  
+        agent any 
+        stage("Docker Build") { 
             steps {
                 script {
-               docker.build registry + ":$BUILD_NUMBER"
+                  docker.build registry + ":$BUILD_NUMBER"
             }
             }
         stage("ECR Login") {
