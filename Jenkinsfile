@@ -25,7 +25,7 @@ pipeline {
                 sh "docker build -t railsapp:latest ."
             }
         }
-          
+            } 
             }
         stage("ECR Login") {
             steps {
