@@ -18,7 +18,6 @@ pipeline {
         }
         
         stage("Docker Build") {  
-                docker 'mydocker'
             steps {
                 sh "docker build -t railsapp:latest ."
             }
