@@ -1,3 +1,5 @@
+#!groovy
+
 pipeline {
     agent any
     environment {
@@ -16,7 +18,9 @@ pipeline {
         }
         
         stage("Docker Build") {
-            agent any    
+            agent {         
+           docker {          
+           image 'php:5.6-apache'  
             steps {
                 sh "docker build -t railsapp:latest ."
             }
