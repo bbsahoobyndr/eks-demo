@@ -17,14 +17,7 @@ pipeline {
                  }
         }
         
-        stage("Docker Build") {
-            agent {         
-             docker {          
-               image 'php:5.6-apache'  
-                 
-             }
-            }
-                 
+        stage("Docker Build") {            
             steps {
                 sh "docker build -t railsapp:latest ."
             }
