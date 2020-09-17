@@ -18,6 +18,9 @@ pipeline {
         }
         
         stage("Docker Build") {  
+             agent {
+              docker 'mydocker'
+        }
             steps {
                 sh "docker build -t railsapp:latest ."
             }
