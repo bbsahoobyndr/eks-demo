@@ -25,6 +25,8 @@ pipeline {
                 sh "docker build -t railsapp:latest ."
             }
         }
+          
+            }
         stage("ECR Login") {
             steps {
                 withAWS(credentials:'aws-credential') {
