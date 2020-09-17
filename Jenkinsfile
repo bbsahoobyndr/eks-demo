@@ -19,13 +19,15 @@ pipeline {
         
         stage("Docker Build") {
             agent {         
-           docker {          
-           image 'php:5.6-apache'  
+             docker {          
+               image 'php:5.6-apache'  
+                 
+             }
+            }
+                 
             steps {
                 sh "docker build -t railsapp:latest ."
             }
-        }
-            } 
             }
         stage("ECR Login") {
             steps {
