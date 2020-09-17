@@ -12,8 +12,9 @@ pipeline {
                         url: 'https://github.com/bbsahoobyndr/eks-demo.git'
                }
         }
-        agent any 
+        
         stage("Docker Build") {
+            agent any 
             steps {
                script {
                  docker.build registry + ":$BUILD_NUMBER"
