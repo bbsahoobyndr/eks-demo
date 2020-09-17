@@ -12,6 +12,7 @@ pipeline {
                         url: 'https://github.com/bbsahoobyndr/eks-demo.git'
                }
         }
+        agent any 
         stage("Docker Build") {
             steps {
                script {
