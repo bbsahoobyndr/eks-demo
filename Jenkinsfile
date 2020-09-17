@@ -1,10 +1,8 @@
 #!groovy
-
 pipeline {
     agent any
     environment {
         registry = '160357565307.dkr.ecr.us-west-2.amazonaws.com/railsapp:latest'
-        dockerImage = ''
     }
     stages {
         stage("Checkout") {
@@ -12,17 +10,13 @@ pipeline {
                     git branch: 'master',
                         credentialsId: 'github',
                         url: 'https://github.com/bbsahoobyndr/eks-demo.git'
-                        
-                
-                 }
+               }
         }
-        agent any 
-        stage("Docker Build") { 
+        stage("Docker Build") {
             steps {
-                script {
-                  docker.build registry + ":$BUILD_NUMBER"
+                sh "docker build -t railsapp:latest ."
             }
-            }
+        }
         stage("ECR Login") {
             steps {
                 withAWS(credentials:'aws-credential') {
@@ -46,3 +40,4 @@ pipeline {
         }
     }
 }
+
