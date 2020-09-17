@@ -1,7 +1,7 @@
 #!groovy
 
 pipeline {
-    agent { dockerfile true }
+    agent any
     environment {
         registry = '160357565307.dkr.ecr.us-west-2.amazonaws.com/railsapp:latest'
         dockerImage = ''
@@ -19,7 +19,8 @@ pipeline {
         
         stage("Docker Build") {  
             steps {
-                sh "docker build -t railsapp:latest ."
+                script {
+               docker.build registry + ":$BUILD_NUMBER"
             }
             }
         stage("ECR Login") {
