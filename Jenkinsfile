@@ -14,7 +14,10 @@ pipeline {
         }
         stage("Docker Build") {
             steps {
-                sh "docker build -t railsapp:latest ."
+               script {
+                 docker.build registry + ":$BUILD_NUMBER"
+                   
+               }
             }
         }
         stage("ECR Login") {
