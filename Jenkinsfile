@@ -1,71 +1,40 @@
 pipeline {
   agent {
     kubernetes {
-      defaultContainer 'jnlp'
+      //cloud 'kubernetes'
+      label 'mypod'
       yaml """
 apiVersion: v1
 kind: Pod
-metadata:
-labels:
-  component: ci
 spec:
-  # Use service account that can deploy to all namespaces
-  serviceAccountName: cd-jenkins
   containers:
-  - name: maven
-    image: maven:latest
-    command:
-    - cat
-    tty: true
-    volumeMounts:
-      - mountPath: "/root/.m2"
-        name: m2
   - name: docker
-    image: docker:latest
-    command:
-    - cat
+    image: docker:1.11
+    command: ['cat']
     tty: true
     volumeMounts:
-    - mountPath: /var/run/docker.sock
-      name: docker-sock
+    - name: dockersock
+      mountPath: /var/run/docker.sock
   volumes:
-    - name: docker-sock
-      hostPath:
-        path: /var/run/docker.sock
-    - name: m2
-      persistentVolumeClaim:
-        claimName: m2
+  - name: dockersock
+    hostPath:
+      path: /var/run/docker.sock
 """
-}
-   }
+    }
+  }
   stages {
-    stage('Build') {
+    stage('Build Docker image') {
       steps {
-        container('maven') {
-          sh """
-                        mvn package -DskipTests
-                                                """
-        }
-      }
-    }
-    stage('Test') {
-      steps {
-        container('maven') {
-          sh """
-             mvn test
-          """
-        }
-      }
-    }
-    stage('Push') {
-      steps {
+        git 'https://github.com/jenkinsci/docker-jnlp-slave.git'
         container('docker') {
-          sh """
-             docker build -t spring-petclinic-demo:$BUILD_NUMBER .
-          """
+          script {
+            def image = docker.build('jenkins/jnlp-slave')
+            image.inside() {
+              sh "whoami"
+            }
+          }
         }
       }
     }
   }
 }
-
