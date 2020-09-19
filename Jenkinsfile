@@ -1,40 +1,47 @@
+#!groovy
 pipeline {
-  agent {
-    kubernetes {
-      //cloud 'kubernetes'
-      label 'jenkins'
-      yaml """
-apiVersion: v1
-kind: Pod
-spec:
-  containers:
-  - name: docker
-    image: docker:1.11
-    command: ['cat']
-    tty: true
-    volumeMounts:
-    - name: dockersock
-      mountPath: /var/run/docker.sock
-  volumes:
-  - name: dockersock
-    hostPath:
-      path: /var/run/docker.sock
-"""
+    agent any
+    environment {
+        registry = '160357565307.dkr.ecr.us-west-2.amazonaws.com/railsapp:latest'
     }
-  }
-  stages {
-    stage('Build Docker image') {
-      steps {
-        git 'https://github.com/jenkinsci/docker-jnlp-slave.git'
-        container('docker') {
-          script {
-            def image = docker.build('jenkins/jnlp-slave')
-            image.inside() {
-              sh "whoami"
-            }
-          }
+    stages {
+        stage("Checkout") {
+            steps {
+                    git branch: 'master',
+                        credentialsId: 'github',
+                        url: 'https://github.com/bbsahoobyndr/eks-demo.git'
+               }
         }
-      }
+        
+        stage("Docker Build") {
+            agent any 
+            steps {
+               script {
+                 docker.build registry + ":$BUILD_NUMBER"
+                   
+               }
+            }
+        }
+        stage("ECR Login") {
+            steps {
+                withAWS(credentials:'aws-credential') {
+                    script {
+                        def login = ecrLogin()
+                        sh "${login}"
+                    }
+                }
+            }
+        }
+        stage("Docker Push") {
+            steps {
+                sh "docker push ${registry}"
+            }
+        }
     }
-  }
+    post {
+        success {
+            echo 'ending'
+            build job: 'TestJob-CD'
+        }
+    }
 }
