@@ -2,7 +2,8 @@ pipeline {
   agent {
     kubernetes {
       //cloud 'kubernetes'
-      yaml """
+   podTemplate(yaml: """
+apiVersion: v1
 kind: Pod
 spec:
   containers:
