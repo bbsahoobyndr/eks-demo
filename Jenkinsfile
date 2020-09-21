@@ -19,8 +19,6 @@ spec:
     hostPath:
       path: /var/run/docker.sock
 """
-    }
-
   stages {
     stage('Build with Img') {
       environment {
