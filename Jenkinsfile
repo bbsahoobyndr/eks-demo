@@ -4,15 +4,11 @@ pipeline {
       //cloud 'kubernetes'
       yaml """
 kind: Pod
-metadata:
-  name: img
 spec:
   containers:
-  - name: img
+  - name: docker
     image: docker:1.11
-    imagePullPolicy: Always
-    command:
-    - cat
+    command: ['cat']
     tty: true
      volumeMounts:
     - name: dockersock
