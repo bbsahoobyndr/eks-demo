@@ -21,6 +21,7 @@ spec:
 """
     }
   }
+               }
   stages {
     stage('Build with Img') {
       environment {
