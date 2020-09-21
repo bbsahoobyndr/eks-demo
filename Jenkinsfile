@@ -18,13 +18,13 @@ spec:
     hostPath:
       path: /var/run/docker.sock
 """
-         stages {
+     stages {
   //def image = "jenkins/jnlp-slave"
   //node(POD_LABEL) {
-    stage('Build Docker image') {
-      git 'https://github.com/jenkinsci/docker-jnlp-slave.git'
-      container('docker') {
-        sh "docker build -t ${image} ."
+      stage('Build Docker image') {
+        git 'https://github.com/jenkinsci/docker-jnlp-slave.git'
+        container('docker') {
+         sh "docker build -t ${image} ."
       }
     }
   }
