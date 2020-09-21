@@ -1,7 +1,9 @@
 pipeline {
   agent {
     kubernetes {
+      
         yaml  """
+        
 apiVersion: v1
 kind: Pod
 spec:
@@ -18,6 +20,8 @@ spec:
     hostPath:
       path: /var/run/docker.sock
 """
+ environment {
+        image = 'jenkins/jnlp-slave'     
     }
      stages {
   //def image = "jenkins/jnlp-slave"
