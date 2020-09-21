@@ -18,9 +18,6 @@ spec:
     hostPath:
       path: /var/run/docker.sock
 """
-    }
-  }
-
   //def image = "jenkins/jnlp-slave"
   //node(POD_LABEL) {
     stage('Build Docker image') {
