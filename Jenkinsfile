@@ -19,6 +19,3 @@ spec:
     hostPath:
       path: /var/run/docker.sock
 """
-               
-  }
-}
