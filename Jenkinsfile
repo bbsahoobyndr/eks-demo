@@ -20,6 +20,5 @@ spec:
       path: /var/run/docker.sock
 """
                
-    }
   }
 }
