@@ -1,8 +1,4 @@
-pipeline {
-  agent {
-    kubernetes {
-      //cloud 'kubernetes'
-   podTemplate(yaml: """
+podTemplate(yaml: """
 apiVersion: v1
 kind: Pod
 spec:
