@@ -1,5 +1,4 @@
 podTemplate(
-  label: agent_label,
   containers: [
     containerTemplate(
       name: 'centos',
@@ -12,7 +11,7 @@ podTemplate(
       hostPathVolume(hostPath: '/var/run/docker.sock', mountPath: '/var/run/docker.sock')
       ]
 ) {
-  node(agent_label) {
+  node(POD_LABEL) {
     stage('test') {
       container('centos') {
         sh "echo hello"
