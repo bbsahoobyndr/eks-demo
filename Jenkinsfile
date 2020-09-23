@@ -14,7 +14,7 @@ podTemplate(
   node(POD_LABEL) {
     stage('test') {
       container('jnlp-slave') {
-        sh "echo hello"
+        sleep 60
       }
     }
   }
