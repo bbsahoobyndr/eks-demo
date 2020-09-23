@@ -1,8 +1,8 @@
 podTemplate(
   containers: [
     containerTemplate(
-      name: 'centos',
-      image: 'centos:centos7',
+      name: 'jnlp-slave',
+      image: 'jenkins/jnlp-slave',
       command: 'cat',
       ttyEnabled: true
       )
@@ -13,7 +13,7 @@ podTemplate(
 ) {
   node(POD_LABEL) {
     stage('test') {
-      container('centos') {
+      container('jnlp-slave') {
         sh "echo hello"
       }
     }
