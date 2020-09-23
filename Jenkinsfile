@@ -3,8 +3,8 @@ apiVersion: v1
 kind: Pod
 spec:
   containers:
-  - name: docker
-    image: docker:1.11
+  - name: centos7
+    image: centos7
     command: ['cat']
     tty: true
     volumeMounts:
@@ -16,11 +16,9 @@ spec:
       path: /var/run/docker.sock
 """
   ) {
-
-  def image = "jenkins/jnlp-slave"
   node(POD_LABEL) {
     stage('Build Docker image') {
-      git 'https://github.com/jenkinsci/docker-jnlp-slave.git'
+     // git 'https://github.com/jenkinsci/docker-jnlp-slave.git'
       container('docker') {
         sh "echo hello world"
       }
